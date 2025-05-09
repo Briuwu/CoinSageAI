@@ -12,9 +12,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { FileText, X } from "lucide-react";
-import Link from "next/link";
 
-export const GenerateReport = () => {
+type Props = {
+  handleReportGeneration: () => void;
+};
+
+export const GenerateReport = ({ handleReportGeneration }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -35,11 +38,9 @@ export const GenerateReport = () => {
             <X className="h-4 w-4" />
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Link href="/reports">
-              <FileText className="h-4 w-4" />
-              Generate
-            </Link>
+          <AlertDialogAction onClick={handleReportGeneration}>
+            <FileText className="h-4 w-4" />
+            Generate
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

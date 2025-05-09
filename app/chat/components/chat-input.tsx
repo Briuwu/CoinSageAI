@@ -10,9 +10,15 @@ interface ChatInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isLoading: boolean;
+  isPending: boolean;
 }
 
-export function ChatInput({ value, onChange, isLoading }: ChatInputProps) {
+export function ChatInput({
+  value,
+  onChange,
+  isLoading,
+  isPending,
+}: ChatInputProps) {
   return (
     <div className="bg-white p-3">
       <div className="flex items-end gap-2">
@@ -23,13 +29,13 @@ export function ChatInput({ value, onChange, isLoading }: ChatInputProps) {
             value={value}
             onChange={onChange}
             rows={1}
-            disabled={isLoading}
+            disabled={isLoading || isPending}
             name="message"
           />
         </div>
         <Button
           type="submit"
-          disabled={isLoading || !value.trim()}
+          disabled={isLoading || isPending || !value.trim()}
           className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 p-0 text-white hover:bg-indigo-600"
         >
           <Send className="h-5 w-5" />

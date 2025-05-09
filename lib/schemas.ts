@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 export const tradeRecommendationSchema = z.object({
-  asset: z
-    .string()
-    .min(1)
-    .describe("Cryptocurrency asset symbol (e.g., 'BTC', 'ETH')"),
+  asset: z.string().min(1).describe("Cryptocurrency asset symbol"),
 
   action: z
     .enum(["buy", "sell", "hold"])
@@ -37,9 +34,7 @@ export const userOverviewSchema = z
 
     preferredAssets: z
       .array(z.string())
-      .describe(
-        "List of crypto assets the user is most interested in (e.g., ['BTC', 'SOL'])",
-      ),
+      .describe("List of crypto assets the user is most interested in"),
   })
   .describe("Basic profile of the user for contextual recommendations");
 
@@ -65,7 +60,7 @@ export const marketSummarySchema = z
   .describe("Snapshot of the broader market at the time of the session");
 
 export const technicalInsightSchema = z.object({
-  asset: z.string().describe("Symbol of the asset analyzed (e.g., 'ETH')"),
+  asset: z.string().describe("Symbol of the asset analyzed"),
 
   indicators: z
     .array(z.string())

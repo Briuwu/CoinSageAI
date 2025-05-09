@@ -1,13 +1,22 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useTransition, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ChatMessage } from "./chat-message";
 import { ChatInput } from "./chat-input";
 import { Bot, RefreshCw } from "lucide-react";
 import { GenerateReport } from "./generate-report";
-
+import { generateReport } from "@/app/actions/generate-report";
+import { ErrorModal } from "./error-modal";
+import { useReportStore } from "@/providers/report-store-provider";
 export function ChatContainer() {
+  const router = useRouter();
+  const { setData } = useReportStore((state) => state);
+  const [isPending, startTransition] = useTransition();
+
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
@@ -35,6 +44,34 @@ export function ChatContainer() {
       timestamp: new Date(),
       isLoading: false,
     }));
+
+  const handleReportGeneration = () => {
+    startTransition(async () => {
+      try {
+        const context = messages
+          .map((message) => {
+            return `${message.role}: ${message.content}`;
+          })
+          .join("\n");
+
+        console.log(context);
+        const report = await generateReport(context);
+        if (!report) {
+          throw new Error("Failed to generate report");
+        }
+
+        setData(report);
+        router.push("/reports");
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+        setOpen(true);
+      }
+    });
+  };
 
   return (
     <div className="flex h-[80vh] flex-col overflow-hidden rounded-lg border bg-white shadow-sm">
@@ -105,10 +142,12 @@ export function ChatContainer() {
           value={input}
           onChange={handleInputChange}
           isLoading={status !== "ready" && status === "streaming"}
+          isPending={isPending}
         />
       </form>
       {/* Report Generation Button */}
-      <GenerateReport />
+      <GenerateReport handleReportGeneration={handleReportGeneration} />
+      <ErrorModal error={error} open={open} setOpen={setOpen} />
     </div>
   );
 }
