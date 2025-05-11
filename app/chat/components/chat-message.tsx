@@ -2,19 +2,18 @@ import { cn } from "@/lib/utils";
 import { User, Bot, Clock } from "lucide-react";
 import { format } from "date-fns";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { UIMessage } from "ai";
 
 interface ChatMessageProps {
-  message: {
-    id: string;
-    role: "user" | "assistant";
-    content: string;
+  message: UIMessage & {
     timestamp: Date;
     isLoading?: boolean;
   };
 }
 
 export function ChatMessage({ message }: ChatMessageProps) {
-  const { role, content, timestamp, isLoading } = message;
+  const { role, timestamp, isLoading } = message;
   const isUser = role === "user";
 
   return (
@@ -46,7 +45,28 @@ export function ChatMessage({ message }: ChatMessageProps) {
               <div className="h-2 w-2 animate-bounce rounded-full bg-slate-300"></div>
             </div>
           ) : (
-            <Markdown>{content}</Markdown>
+            <div className="space-y-2">
+              {message.parts.map((part, index) => {
+                switch (part.type) {
+                  case "text":
+                    return (
+                      <Markdown remarkPlugins={[remarkGfm]} key={index}>
+                        {part.text}
+                      </Markdown>
+                    );
+                  case "tool-invocation":
+                    return (
+                      <div key={index}>
+                        <pre className="rounded-md bg-slate-100 p-2 text-sm">
+                          calling tool: {part.toolInvocation.toolName}
+                        </pre>
+                      </div>
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </div>
           )}
         </div>
 

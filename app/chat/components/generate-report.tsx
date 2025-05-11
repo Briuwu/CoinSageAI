@@ -15,9 +15,13 @@ import { FileText, X } from "lucide-react";
 
 type Props = {
   handleReportGeneration: () => void;
+  isPending: boolean;
 };
 
-export const GenerateReport = ({ handleReportGeneration }: Props) => {
+export const GenerateReport = ({
+  handleReportGeneration,
+  isPending,
+}: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -34,11 +38,14 @@ export const GenerateReport = ({ handleReportGeneration }: Props) => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>
             <X className="h-4 w-4" />
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={handleReportGeneration}>
+          <AlertDialogAction
+            disabled={isPending}
+            onClick={handleReportGeneration}
+          >
             <FileText className="h-4 w-4" />
             Generate
           </AlertDialogAction>

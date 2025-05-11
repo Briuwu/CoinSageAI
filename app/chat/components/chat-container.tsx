@@ -5,7 +5,7 @@ import { useRef, useEffect, useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatMessage } from "./chat-message";
 import { ChatInput } from "./chat-input";
-import { Bot, RefreshCw } from "lucide-react";
+import { Bot, Loader2, RefreshCw } from "lucide-react";
 import { GenerateReport } from "./generate-report";
 import { generateReport } from "@/app/actions/generate-report";
 import { ErrorModal } from "./error-modal";
@@ -33,17 +33,7 @@ export function ChatContainer() {
   };
 
   // Format messages for our custom UI
-  const formattedMessages = messages
-    .filter(
-      (message) => message.role === "user" || message.role === "assistant",
-    )
-    .map((message) => ({
-      id: message.id,
-      role: message.role as "user" | "assistant",
-      content: message.content.replace("GENERATE_REPORT", ""), // Remove the trigger phrase
-      timestamp: new Date(),
-      isLoading: false,
-    }));
+  const formattedMessages = messages;
 
   const handleReportGeneration = () => {
     startTransition(async () => {
@@ -53,8 +43,6 @@ export function ChatContainer() {
             return `${message.role}: ${message.content}`;
           })
           .join("\n");
-
-        console.log(context);
         const report = await generateReport(context);
         if (!report) {
           throw new Error("Failed to generate report");
@@ -108,12 +96,23 @@ export function ChatContainer() {
                 content:
                   "Welcome! I am CoinSage AI, your personal crypto advisor. I can help you analyze market trends and provide trading insights, and generate comprehensive reports for you.",
                 timestamp: new Date(),
+                parts: [
+                  {
+                    type: "text",
+                    text: "Welcome! I am CoinSage AI, your personal crypto advisor. I can help you analyze market trends and provide trading insights, and generate comprehensive reports for you.",
+                  },
+                ],
               }}
             />
           )}
-
           {formattedMessages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
+            <ChatMessage
+              key={message.id}
+              message={{
+                ...message,
+                timestamp: message.createdAt || new Date(),
+              }}
+            />
           ))}
 
           {/* Loading indicator */}
@@ -128,6 +127,7 @@ export function ChatContainer() {
                   content: "",
                   timestamp: new Date(),
                   isLoading: true,
+                  parts: [],
                 }}
               />
             )}
@@ -146,8 +146,21 @@ export function ChatContainer() {
         />
       </form>
       {/* Report Generation Button */}
-      <GenerateReport handleReportGeneration={handleReportGeneration} />
+      <GenerateReport
+        handleReportGeneration={handleReportGeneration}
+        isPending={isPending}
+      />
       <ErrorModal error={error} open={open} setOpen={setOpen} />
+      {isPending && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="flex flex-col items-center justify-center gap-2 rounded-lg bg-white p-4">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <p className="animate-pulse text-sm font-bold">
+              Generating report...
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
