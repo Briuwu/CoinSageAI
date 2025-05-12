@@ -103,4 +103,6 @@ export type TradeRecommendation = z.infer<typeof tradeRecommendationSchema>;
 export type UserOverview = z.infer<typeof userOverviewSchema>;
 export type MarketSummary = z.infer<typeof marketSummarySchema>;
 export type TechnicalInsight = z.infer<typeof technicalInsightSchema>;
-export type ReportSummary = z.infer<typeof reportSummarySchema>;
+export type ReportSummary = z.infer<typeof reportSummarySchema> & {
+  id: string;
+};

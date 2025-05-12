@@ -10,9 +10,10 @@ import { GenerateReport } from "./generate-report";
 import { generateReport } from "@/app/actions/generate-report";
 import { ErrorModal } from "./error-modal";
 import { useReportStore } from "@/providers/report-store-provider";
+import { generateId } from "ai";
 export function ChatContainer() {
   const router = useRouter();
-  const { setData } = useReportStore((state) => state);
+  const { addReport } = useReportStore((state) => state);
   const [isPending, startTransition] = useTransition();
 
   const [open, setOpen] = useState(false);
@@ -43,12 +44,27 @@ export function ChatContainer() {
             return `${message.role}: ${message.content}`;
           })
           .join("\n");
+
         const report = await generateReport(context);
+
         if (!report) {
           throw new Error("Failed to generate report");
         }
 
-        setData(report);
+        const messagesData = messages.map((message) => ({
+          role: message.role,
+          content: message.content,
+        }));
+
+        const reportData = {
+          id: generateId(),
+          data: report,
+          history: messagesData,
+        };
+
+        // Add the report to the store
+        addReport(reportData);
+
         router.push("/reports");
       } catch (error) {
         if (error instanceof Error) {

@@ -23,8 +23,11 @@ import {
   Fingerprint,
   ChevronDown,
   ChevronUp,
+  ArrowLeft,
 } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function ReportSummary(props: ReportSummaryType) {
   const [showSummary, setShowSummary] = useState(true);
@@ -56,6 +59,12 @@ export function ReportSummary(props: ReportSummaryType) {
 
   return (
     <div className="space-y-6">
+      <Button asChild variant="link">
+        <Link href="/reports">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Reports
+        </Link>
+      </Button>
       <div className="rounded-lg border border-slate-100 bg-gradient-to-r from-slate-50 to-transparent p-6 shadow-sm">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div>
@@ -65,7 +74,7 @@ export function ReportSummary(props: ReportSummaryType) {
             </h1>
             <p className="mt-1 flex items-center gap-1 text-sm text-slate-500">
               <Fingerprint className="h-4 w-4 text-slate-400" />
-              Session ID: <span className="font-mono">fake session id</span>
+              Session ID: <span className="font-mono">{props.id}</span>
             </p>
           </div>
           <div className="flex items-center gap-3">
