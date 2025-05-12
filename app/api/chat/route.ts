@@ -4,7 +4,7 @@ import { streamText } from "ai";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/constant";
 import { tools } from "@/lib/tools";
 
-export function errorHandler(error: unknown) {
+function errorHandler(error: unknown) {
   if (error == null) {
     return "unknown error";
   }
