@@ -35,17 +35,6 @@ export function MarketSummary({ data }: MarketSummaryProps) {
     }
   };
 
-  const getSentimentColor = (sentiment: string) => {
-    switch (sentiment) {
-      case "bullish":
-        return "bg-emerald-500";
-      case "bearish":
-        return "bg-rose-500";
-      default:
-        return "bg-amber-500";
-    }
-  };
-
   const getSentimentBadgeColor = (sentiment: string) => {
     switch (sentiment) {
       case "bullish":
