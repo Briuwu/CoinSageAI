@@ -24,18 +24,27 @@ export default function Home() {
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {reports.map((report) => (
-          <Link
-            key={report.id}
-            href={`/reports/${report.id}`}
-            className="rounded-lg border p-4 shadow-sm hover:bg-gray-50"
-          >
-            <h2 className="text-lg font-bold">{report.id}</h2>
-            <p className="text-muted-foreground line-clamp-4 text-sm">
-              {report.data.sessionSummary}
-            </p>
-          </Link>
-        ))}
+        {reports.length > 0 ? (
+          reports.map((report) => (
+            <Link
+              key={report.id}
+              href={`/reports/${report.id}`}
+              className="rounded-lg border p-4 shadow-sm hover:bg-gray-50"
+            >
+              <h2 className="text-lg font-bold">{report.id}</h2>
+              <p className="text-muted-foreground line-clamp-4 text-sm">
+                {report.data.sessionSummary}
+              </p>
+            </Link>
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center gap-4">
+            <p className="text-muted-foreground text-sm">No reports found</p>
+            <Button asChild>
+              <Link href="/chat">Start a new chat</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </main>
   );

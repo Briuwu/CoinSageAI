@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bot, BarChart3, Brain, ArrowRight } from "lucide-react";
+import { Bot, BarChart3, Brain, ArrowRight, History } from "lucide-react";
 
 function VerticalLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -66,38 +66,61 @@ export default function Home() {
           <GridBG />
           <VerticalLabel>CRYPTO ASSISTANT</VerticalLabel>
         </div>
-        {/* Card 1 */}
-        <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-lg backdrop-blur-md">
-          <div className="z-10 flex items-center gap-4">
-            <BarChart3 className="h-10 w-10 text-blue-400" />
-            <div>
-              <h2 className="mb-1 text-lg font-semibold text-gray-900">
-                Market Analysis
-              </h2>
-              <p className="text-sm text-gray-600">
-                Track overall market performance and trends with real-time data.
-              </p>
+        <div className="col-span-full grid grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-lg backdrop-blur-md">
+            <div className="z-10 flex items-center gap-4">
+              <BarChart3 className="h-10 w-10 text-blue-400" />
+              <div>
+                <h2 className="mb-1 text-lg font-semibold text-gray-900">
+                  Market Analysis
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Track overall market performance and trends with real-time
+                  data.
+                </p>
+              </div>
             </div>
+            <GridBG />
+            <VerticalLabel>MARKET</VerticalLabel>
           </div>
-          <GridBG />
-          <VerticalLabel>MARKET</VerticalLabel>
-        </div>
-        {/* Card 2 */}
-        <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-lg backdrop-blur-md">
-          <div className="z-10 flex items-center gap-4">
-            <Brain className="h-10 w-10 text-purple-400" />
-            <div>
-              <h2 className="mb-1 text-lg font-semibold text-gray-900">
-                Technical Insights
-              </h2>
-              <p className="text-sm text-gray-600">
-                Understand technical indicators and OHLC trends for smarter
-                trading.
-              </p>
+          {/* Card 2 */}
+          <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-lg backdrop-blur-md">
+            <div className="z-10 flex items-center gap-4">
+              <Brain className="h-10 w-10 text-purple-400" />
+              <div>
+                <h2 className="mb-1 text-lg font-semibold text-gray-900">
+                  Technical Insights
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Understand technical indicators and OHLC trends for smarter
+                  trading.
+                </p>
+              </div>
             </div>
+            <GridBG />
+            <VerticalLabel>TECHNICAL</VerticalLabel>
           </div>
-          <GridBG />
-          <VerticalLabel>TECHNICAL</VerticalLabel>
+          <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border-4 border-emerald-400 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <Link
+              href="/reports"
+              className="z-10 flex h-full flex-col items-center gap-4"
+            >
+              <div className="rounded-full bg-emerald-100 p-3">
+                <History className="h-12 w-12 text-emerald-600" />
+              </div>
+              <div className="text-center">
+                <h2 className="mb-2 text-xl font-bold text-emerald-700">
+                  Chat History
+                </h2>
+                <p className="text-sm text-emerald-600">
+                  View your past conversations and analysis reports
+                </p>
+              </div>
+            </Link>
+            <GridBG />
+            <VerticalLabel>HISTORY</VerticalLabel>
+          </div>
         </div>
       </main>
     </div>
