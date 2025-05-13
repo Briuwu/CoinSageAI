@@ -28,10 +28,9 @@ export const ErrorModal = ({ error, open, setOpen }: Props) => {
           <AlertDialogAction
             onClick={() => {
               setOpen(false);
-              window.location.reload();
             }}
           >
-            Reload
+            Continue the session
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

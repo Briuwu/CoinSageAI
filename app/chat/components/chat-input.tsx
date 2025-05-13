@@ -4,11 +4,15 @@ import type React from "react";
 
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 
 interface ChatInputProps {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => void;
   isLoading: boolean;
   isPending: boolean;
 }
@@ -23,14 +27,14 @@ export function ChatInput({
     <div className="bg-white p-3">
       <div className="flex items-end gap-2">
         <div className="relative flex-1">
-          <Textarea
+          <Input
             className="min-h-[60px] w-full resize-none rounded-lg border px-3 py-2 pr-10 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             placeholder="Ask me anything about crypto..."
             value={value}
             onChange={onChange}
-            rows={1}
             disabled={isLoading || isPending}
             name="message"
+            autoFocus
           />
         </div>
         <Button
