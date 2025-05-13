@@ -66,7 +66,7 @@ export default function Home() {
           <GridBG />
           <VerticalLabel>CRYPTO ASSISTANT</VerticalLabel>
         </div>
-        <div className="col-span-full grid grid-cols-3 gap-6">
+        <div className="col-span-full grid gap-6 lg:grid-cols-3">
           {/* Card 1 */}
           <div className="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-lg backdrop-blur-md">
             <div className="z-10 flex items-center gap-4">
